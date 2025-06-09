@@ -71,11 +71,34 @@ You should see the message:
 Hello from EKS!
 ```
 
-### Step 5: Cleanup
+### Step 6: Cleanup — Delete Application and Cluster
 
-To delete all created resources and avoid costs, run:
+To avoid unexpected charges, first delete the deployed app from your EKS cluster, then destroy the cluster and related AWS resources using Terraform.
 
+1. Delete the Application from the EKS Cluster
+Since your app is deployed in the sample-app namespace, the easiest way is to delete the whole namespace, which removes all resources inside it (deployments, services, pods, etc.):
+
+delete namepsace or delete individual resources (deployments, services)
+```bash
+cd deploy-sample-app
+kubectl delete namespace sample-app 
+```
+Alternatively, if you want to delete resources individually, run:
+```bash
+kubectl delete -f deployment.yaml
+kubectl delete -f service.yaml
+kubectl delete -f namespace.yaml
+```
+Verify the app is deleted:
+```bash
+kubectl get all -n sample-app
+# This should return no resources if namespace deleted
+```
+
+2. Destroy the EKS Cluster and AWS Resources with Terraform
+Once your app is removed, destroy the entire EKS cluster and associated AWS infrastructure created by Terraform:
 ```bash
 cd create-cluster
 terraform destroy
 ```
+This command will remove the cluster, VPC, subnets, IAM roles, and all other resources defined in your Terraform configurations.
