@@ -21,6 +21,7 @@
 ```bash
 cd create-cluster
 terraform init
+terraform plan
 terraform apply
 ```
 
