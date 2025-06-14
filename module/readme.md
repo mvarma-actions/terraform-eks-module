@@ -20,7 +20,7 @@ Here is an example of how to use this module in your Terraform configuration:
 
 ```hcl
 module "eks" {
-  source = "../module/eks-cluster"
+  source = "../module"
 
   region                = "us-east-2"
   cluster_name          = "my-eks-cluster"
